@@ -5,7 +5,7 @@ import NameModal from './NameModal';
 import AddDishModal from './AddDishModal';
 import './DishList.css';
 
-const DishList = () => {
+const DishList = ({ isAdmin }) => {
   const [dishes, setDishes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedDish, setSelectedDish] = useState(null);
@@ -131,6 +131,47 @@ const DishList = () => {
     }
   };
 
+  const handleDeleteDish = async (id) => {
+    try {
+      const { error } = await supabase
+        .from('pratos_festa_junina')
+        .delete()
+        .eq('id', id);
+
+      if (error) throw error;
+      
+      // Atualização otimista
+      setDishes(currentDishes => currentDishes.filter(dish => dish.id !== id));
+    } catch (error) {
+      console.error('Error deleting dish:', error.message);
+      alert('Erro ao excluir o prato. Tente novamente.');
+    }
+  };
+
+  const handleReleaseDish = async (id) => {
+    try {
+      const { error } = await supabase
+        .from('pratos_festa_junina')
+        .update({
+          trazido_por: null,
+          selecionado: false
+        })
+        .eq('id', id);
+
+      if (error) throw error;
+
+      // Atualização otimista
+      setDishes(currentDishes =>
+        currentDishes.map(d =>
+          d.id === id ? { ...d, trazido_por: null, selecionado: false } : d
+        )
+      );
+    } catch (error) {
+      console.error('Error releasing dish:', error.message);
+      alert('Erro ao liberar o prato. Tente novamente.');
+    }
+  };
+
   if (loading) {
     return <div className="loading">Carregando as delícias... 🌽</div>;
   }
@@ -144,6 +185,9 @@ const DishList = () => {
             key={dish.id} 
             dish={dish} 
             onSelect={() => handleSelectClick(dish)} 
+            isAdmin={isAdmin}
+            onDelete={() => handleDeleteDish(dish.id)}
+            onRelease={() => handleReleaseDish(dish.id)}
           />
         ))}
 

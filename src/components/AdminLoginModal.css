@@ -1,0 +1,30 @@
+.admin-login-content {
+  border-top: 6px solid var(--color-wood) !important;
+}
+
+.admin-confirm-btn {
+  background-color: var(--color-wood) !important;
+}
+
+.admin-confirm-btn:hover {
+  background-color: #3e2723 !important;
+}
+
+.admin-error-banner {
+  background-color: #ffebee;
+  color: var(--color-primary);
+  padding: 0.8rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border-left: 4px solid var(--color-primary);
+  text-align: left;
+  animation: shake 0.3s ease;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}

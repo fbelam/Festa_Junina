@@ -1,9 +1,20 @@
 import React from 'react';
 import './Header.css';
 
-const Header = () => {
+const Header = ({ isAdmin, onLoginClick, onLogout }) => {
   return (
     <header className="junina-header">
+      <div className="admin-badge-container">
+        {isAdmin ? (
+          <button className="admin-btn logged-in" onClick={onLogout}>
+            Sair 🚪
+          </button>
+        ) : (
+          <button className="admin-btn" onClick={onLoginClick}>
+            Admin 🔑
+          </button>
+        )}
+      </div>
       <div className="flags-container">
         <div className="flag yellow"></div>
         <div className="flag red"></div>

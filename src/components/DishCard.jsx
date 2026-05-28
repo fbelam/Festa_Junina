@@ -1,11 +1,11 @@
 import React from 'react';
 import './DishCard.css';
 
-const DishCard = ({ dish, onSelect }) => {
+const DishCard = ({ dish, onSelect, isAdmin, onDelete, onRelease }) => {
   const isSelected = dish.selecionado;
 
   return (
-    <div className={`dish-card ${isSelected ? 'selected' : 'available'}`}>
+    <div className={`dish-card ${isSelected ? 'selected' : 'available'} ${isAdmin ? 'admin-mode' : ''}`}>
       <div className="dish-icon">
         {getIconForDish(dish.nome_prato)}
       </div>
@@ -19,6 +19,35 @@ const DishCard = ({ dish, onSelect }) => {
           <button className="select-btn" onClick={onSelect}>
             Eu trago!
           </button>
+        )}
+
+        {isAdmin && (
+          <div className="admin-card-actions">
+            {isSelected && (
+              <button 
+                className="admin-action-btn release-btn" 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onRelease();
+                }}
+                title="Liberar prato"
+              >
+                🔓 Liberar
+              </button>
+            )}
+            <button 
+              className="admin-action-btn delete-btn" 
+              onClick={(e) => {
+                e.stopPropagation();
+                if (window.confirm(`Tem certeza que deseja excluir o prato "${dish.nome_prato}"?`)) {
+                  onDelete();
+                }
+              }}
+              title="Excluir prato"
+            >
+              🗑️ Excluir
+            </button>
+          </div>
         )}
       </div>
     </div>

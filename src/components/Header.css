@@ -55,3 +55,41 @@
     font-size: 2.5rem;
   }
 }
+
+.admin-badge-container {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  z-index: 100;
+}
+
+.admin-btn {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: var(--color-white);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(5px);
+}
+
+.admin-btn:hover {
+  background-color: var(--color-secondary);
+  color: var(--color-wood);
+  border-color: var(--color-secondary);
+}
+
+.admin-btn.logged-in {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.admin-btn.logged-in:hover {
+  background-color: #b71c1c;
+  color: var(--color-white);
+  border-color: #b71c1c;
+}
