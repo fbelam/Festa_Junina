@@ -1,0 +1,57 @@
+.junina-header {
+  background-color: var(--color-wood);
+  color: var(--color-white);
+  padding: 3rem 1rem 2rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  border-bottom: 5px solid var(--color-tertiary);
+}
+
+.flags-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  padding-top: 10px;
+}
+
+.flag {
+  width: 40px;
+  height: 60px;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  animation: swing 2s ease-in-out infinite alternate;
+  transform-origin: top center;
+}
+
+.flag.yellow { background-color: var(--color-secondary); }
+.flag.red { background-color: var(--color-primary); }
+.flag.green { background-color: var(--color-success); }
+.flag.blue { background-color: #0288d1; }
+
+@keyframes swing {
+  0% { transform: rotate(-10deg); }
+  100% { transform: rotate(10deg); }
+}
+
+.header-content h1 {
+  font-size: 3.5rem;
+  margin-bottom: 0.5rem;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+  color: var(--color-secondary);
+}
+
+.header-content p {
+  font-size: 1.2rem;
+  opacity: 0.9;
+  font-weight: 500;
+}
+
+@media (max-width: 600px) {
+  .header-content h1 {
+    font-size: 2.5rem;
+  }
+}

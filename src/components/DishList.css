@@ -1,0 +1,39 @@
+.dish-list-container {
+  width: 100%;
+}
+
+.section-title {
+  text-align: center;
+  font-size: 2.5rem;
+  color: var(--color-primary);
+  margin-bottom: 2rem;
+  position: relative;
+  display: inline-block;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 20%;
+  width: 60%;
+  height: 4px;
+  background-color: var(--color-tertiary);
+  border-radius: 2px;
+}
+
+.dish-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.loading {
+  text-align: center;
+  font-size: 1.5rem;
+  color: var(--color-wood);
+  margin-top: 3rem;
+  font-weight: 500;
+}

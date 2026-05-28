@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sancreek&display=swap');
+
+:root {
+  --color-bg-primary: #fdf5e6; /* old lace / warm white */
+  --color-primary: #d32f2f; /* dark red */
+  --color-secondary: #fbc02d; /* warm yellow */
+  --color-tertiary: #f57c00; /* orange */
+  --color-wood: #5d4037; /* brown */
+  --color-wood-light: #8d6e63;
+  --color-text: #3e2723;
+  --color-white: #ffffff;
+  --color-success: #388e3c;
+  --color-disabled: #bdbdbd;
+
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  --shadow-md: 0 4px 6px rgba(0,0,0,0.1), 0 2px 4px rgba(0,0,0,0.06);
+  --shadow-lg: 0 10px 15px rgba(0,0,0,0.1), 0 4px 6px rgba(0,0,0,0.05);
+
+  --font-body: 'Inter', sans-serif;
+  --font-title: 'Sancreek', cursive;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  background-color: var(--color-bg-primary);
+  background-image: 
+    repeating-linear-gradient(45deg, rgba(211, 47, 47, 0.03) 25%, transparent 25%, transparent 75%, rgba(211, 47, 47, 0.03) 75%, rgba(211, 47, 47, 0.03)),
+    repeating-linear-gradient(45deg, rgba(211, 47, 47, 0.03) 25%, transparent 25%, transparent 75%, rgba(211, 47, 47, 0.03) 75%, rgba(211, 47, 47, 0.03));
+  background-position: 0 0, 20px 20px;
+  background-size: 40px 40px;
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-title);
+  margin-top: 0;
+  font-weight: 400;
+}
