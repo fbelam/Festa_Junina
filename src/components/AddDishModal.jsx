@@ -5,6 +5,7 @@ const AddDishModal = ({ onConfirm, onCancel }) => {
   const [dishName, setDishName] = useState('');
   const [participantName, setParticipantName] = useState('');
   const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const dishInputRef = useRef(null);
 
   useEffect(() => {
@@ -13,8 +14,10 @@ const AddDishModal = ({ onConfirm, onCancel }) => {
     }
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    if (isSubmitting) return;
+
     const newErrors = {};
     if (!dishName.trim()) {
       newErrors.dishName = 'Por favor, digite o nome do prato.';
@@ -28,14 +31,20 @@ const AddDishModal = ({ onConfirm, onCancel }) => {
       return;
     }
 
-    onConfirm(dishName, participantName);
+    setIsSubmitting(true);
+    try {
+      await onConfirm(dishName, participantName);
+    } catch (err) {
+      console.error(err);
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <div className="modal-overlay" onClick={onCancel}>
       <div className="modal-content" onClick={e => e.stopPropagation()}>
         <div className="modal-header">
-          <button className="close-btn" onClick={onCancel}>×</button>
+          <button className="close-btn" onClick={onCancel} disabled={isSubmitting}>×</button>
         </div>
         <div className="modal-body">
           <div className="modal-icon">🍳</div>
@@ -56,6 +65,7 @@ const AddDishModal = ({ onConfirm, onCancel }) => {
                 }}
                 placeholder="Ex: Pinhão cozido, Maria mole, etc."
                 className={errors.dishName ? 'error' : ''}
+                disabled={isSubmitting}
               />
               {errors.dishName && <span className="error-message">{errors.dishName}</span>}
             </div>
@@ -72,13 +82,27 @@ const AddDishModal = ({ onConfirm, onCancel }) => {
                 }}
                 placeholder="Ex: Maria Oliveira"
                 className={errors.participantName ? 'error' : ''}
+                disabled={isSubmitting}
               />
               {errors.participantName && <span className="error-message">{errors.participantName}</span>}
             </div>
             
             <div className="modal-actions">
-              <button type="button" className="cancel-btn" onClick={onCancel}>Cancelar</button>
-              <button type="submit" className="confirm-btn">Adicionar e Confirmar</button>
+              <button 
+                type="button" 
+                className="cancel-btn" 
+                onClick={onCancel}
+                disabled={isSubmitting}
+              >
+                Cancelar
+              </button>
+              <button 
+                type="submit" 
+                className="confirm-btn"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? 'Salvando...' : 'Adicionar e Confirmar'}
+              </button>
             </div>
           </form>
         </div>

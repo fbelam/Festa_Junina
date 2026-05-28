@@ -52,6 +52,7 @@ const DishList = () => {
       );
     } else if (payload.eventType === 'INSERT') {
       setDishes((currentDishes) => {
+        if (currentDishes.some(d => d.id === payload.new.id)) return currentDishes;
         const newDishes = [...currentDishes, payload.new];
         return newDishes.sort((a, b) => a.nome_prato.localeCompare(b.nome_prato));
       });
@@ -113,9 +114,10 @@ const DishList = () => {
       if (error) throw error;
       
       // O estado local será atualizado pelo evento do real-time,
-      // mas podemos fazer o update otimista se desejado.
+      // mas fazemos o update otimista de forma segura sem duplicar.
       if (data && data[0]) {
         setDishes((currentDishes) => {
+          if (currentDishes.some(d => d.id === data[0].id)) return currentDishes;
           const newDishes = [...currentDishes, data[0]];
           return newDishes.sort((a, b) => a.nome_prato.localeCompare(b.nome_prato));
         });
