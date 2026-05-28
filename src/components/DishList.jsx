@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { supabase } from '../supabaseClient';
 import DishCard from './DishCard';
 import NameModal from './NameModal';
+import AddDishModal from './AddDishModal';
 import './DishList.css';
 
 const DishList = () => {
@@ -9,6 +10,7 @@ const DishList = () => {
   const [loading, setLoading] = useState(true);
   const [selectedDish, setSelectedDish] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   useEffect(() => {
     fetchDishes();
@@ -95,6 +97,38 @@ const DishList = () => {
     }
   };
 
+  const handleConfirmNewDish = async (dishName, participantName) => {
+    if (!dishName.trim() || !participantName.trim()) return;
+
+    try {
+      const { data, error } = await supabase
+        .from('pratos_festa_junina')
+        .insert([{
+          nome_prato: dishName.trim(),
+          trazido_por: participantName.trim(),
+          selecionado: true
+        }])
+        .select();
+
+      if (error) throw error;
+      
+      // O estado local será atualizado pelo evento do real-time,
+      // mas podemos fazer o update otimista se desejado.
+      if (data && data[0]) {
+        setDishes((currentDishes) => {
+          const newDishes = [...currentDishes, data[0]];
+          return newDishes.sort((a, b) => a.nome_prato.localeCompare(b.nome_prato));
+        });
+      }
+
+    } catch (error) {
+      console.error('Error inserting dish:', error.message);
+      alert('Erro ao cadastrar o prato. Tente novamente.');
+    } finally {
+      setIsAddModalOpen(false);
+    }
+  };
+
   if (loading) {
     return <div className="loading">Carregando as delícias... 🌽</div>;
   }
@@ -110,6 +144,15 @@ const DishList = () => {
             onSelect={() => handleSelectClick(dish)} 
           />
         ))}
+
+        {/* Card Fixo para adicionar um prato personalizado */}
+        <div className="dish-card add-new-card" onClick={() => setIsAddModalOpen(true)}>
+          <div className="dish-icon">➕</div>
+          <div className="dish-info">
+            <h3 className="dish-name">Outro prato / Nova opção</h3>
+            <span className="add-new-subtitle">Leve algo diferente!</span>
+          </div>
+        </div>
       </div>
       
       {isModalOpen && (
@@ -120,6 +163,13 @@ const DishList = () => {
             setIsModalOpen(false);
             setSelectedDish(null);
           }}
+        />
+      )}
+
+      {isAddModalOpen && (
+        <AddDishModal 
+          onConfirm={handleConfirmNewDish}
+          onCancel={() => setIsAddModalOpen(false)}
         />
       )}
     </div>
