@@ -26,7 +26,7 @@ const Header = ({ isAdmin, onLoginClick, onLogout }) => {
         <div className="flag blue"></div>
       </div>
       <div className="header-content">
-        <h1>Arraiá da Empresa</h1>
+        <h1>Arraiá da MGA/Multi</h1>
         <p>Escolha o seu prato típico e participe da nossa festa!</p>
       </div>
     </header>
